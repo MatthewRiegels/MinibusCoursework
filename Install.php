@@ -1,6 +1,10 @@
 <?php
+// this code creates empty versions of every table the system uses
+// this code is not meant to be run regularly; only once when implemented.
+
 include_once("connection.php");
 
+// TblVehicles
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblVehicles;
 CREATE TABLE TblVehicles (
     VehicleID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -11,6 +15,7 @@ CREATE TABLE TblVehicles (
 $stmt->execute();
 $stmt->closeCursor();
 
+// TblUsers
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblUsers;
 CREATE TABLE TblUsers (
     UserID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -26,6 +31,7 @@ CREATE TABLE TblUsers (
 $stmt->execute();
 $stmt->closeCursor();
 
+// TblRequests
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblRequests;
 CREATE TABLE TblRequests (
     RequestID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
