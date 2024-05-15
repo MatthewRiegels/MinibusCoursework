@@ -12,7 +12,7 @@
             <input type="submit" value="Add Vehicle">
         </form>
 
-        <!-- show all vehciles -->
+        <!-- show all vehicles -->
         <?php
         include_once('connection.php');
         // iterates over TblVehicles, printing out information from each record
