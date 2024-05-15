@@ -8,7 +8,7 @@
         <form action="vehicles_add.php" method = "post">
             Reg number:<input type="text" name="RegNumber"><br>
             Capacity:<input type="text" name="Capacity"><br>
-            NotAvailableFrom:<input type="text" name="NotAvailableFrom"><br>
+            NotAvailableFrom:<input type="date" name="NotAvailableFrom"><br>
             <input type="submit" value="Add Vehicle">
         </form>
 
