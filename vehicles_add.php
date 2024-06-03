@@ -26,7 +26,8 @@ $valid = true;
 if (!(
     strlen($_POST["RegNumber"]) == 7 and
     ctype_alpha(substr($_POST["RegNumber"], 0, 2)) and
-    is_numeric(substr($_POST["RegNumber"], 2, 2)) and
+    is_numeric(substr($_POST["RegNumber"], 2, 1)) and
+    is_numeric(substr($_POST["RegNumber"], 3, 1)) and
     ctype_alpha(substr($_POST["RegNumber"], 4, 3))
     ))
 {
