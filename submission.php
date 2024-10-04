@@ -14,7 +14,7 @@
             Postcode:<input type="text" name="Postcode"><br>
             Required Capacity:<input type="number" name="RequiredCapacity"><br>
             Purpose:<input type="text" name="Purpose"><br>
-            Driver Required?<input type="bool" name="DriverRequired"><br>
+            Driver Required?<input type="tick" name="DriverRequired"><br>
             <input type="submit" value="Submit Request">
         </form>
     </body>
