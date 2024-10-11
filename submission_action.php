@@ -10,4 +10,8 @@ echo("Postcode: " . $_POST['Postcode'] . "<br>");
 echo("RequiredCapacity: " . $_POST['RequiredCapacity'] . "<br>");
 echo("Purpose: " . $_POST['Purpose'] . "<br>");
 echo("DriverRequired: " . $_POST['DriverRequired'] . "<br>");
+
+// validation
+
+
 ?>
