@@ -12,6 +12,9 @@ echo("Purpose: " . $_POST['Purpose'] . "<br>");
 echo("DriverRequired: " . $_POST['DriverRequired'] . "<br>");
 
 // validation
-// TimeIn must be greater than
+// TimeIn must be greater than TimeOut
+if ($_POST['TimeIn'] <= $_POST['TimeOut']){// idk if this works
+    $valid = False;
+}
 
 ?>
