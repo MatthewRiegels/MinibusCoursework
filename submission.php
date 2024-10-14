@@ -7,10 +7,8 @@
         <h1>Submit a Request</h1>
         <!-- form for adding requests -->
         <form action="submission_action.php" method = "post">
-            <?php// code to ensure DateOfJob is in future
-            $currentdate = date("Y-m-d");
-            echo('Date of Job:<input type="date" name="DateOfJob", min="' . $currentdate . '"><br>');
-            ?>
+            <!--  code to ensure DateOfJob is in future -->
+            <?php echo('Date of Job:<input type="date" name="DateOfJob", min="' . date("Y-m-d") . '"><br>'); ?>
             Time out:<input type="time" name="TimeOut"><br>
             Time in:<input type="time" name="TimeIn"><br>
             Destination:<input type="text" name="Destination"><br>
