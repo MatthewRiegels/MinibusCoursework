@@ -25,5 +25,17 @@ if (!ctype_alnum($postcode_stripped)){
 
 // Output validity for testing purposes
 echo('<br>');
-echo('Valid: ' . $valid);
+echo('Valid: ' . $valid . '<br>');
+
+// Conversion to DateTimeIn
+$DateTimeOut = $_POST['DateOfJob'] . ' ' . $_POST['TimeOut'];
+echo($DateTimeOut);
+
+// if ($valid == true){
+//     $stmt = $conn->prepare("INSERT INTO TblRequests (RequestID,RegNumber,Capacity,)VALUES (null,:RegNumber,:Capacity,:NotAvailableFrom)");
+//     $stmt->bindParam(':RegNumber', $_POST["RegNumber"]);
+//     $stmt->execute();
+//     $conn=null;
+// }
+
 ?>
