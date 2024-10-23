@@ -35,8 +35,9 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblRequests;
 CREATE TABLE TblRequests (
     RequestID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    DateTimeOut DATETIME NOT NULL,
-    TimeIn TIMESTAMP NOT NULL,
+    DateOfJob DATE NOT NULL,
+    TimeOut TIME NOT NULL,
+    TimeIn TIME NOT NULL,
     Destination VARCHAR(20) NOT NULL,
     Postcode VARCHAR(8) NOT NULL,
     Purpose VARCHAR(20) NOT NULL,
