@@ -26,6 +26,7 @@ CREATE TABLE TblUsers (
     Surname VARCHAR(30) NOT NULL,
     IsDriver TINYINT(1) NOT NULL,
     IsAdmin TINYINT(1) NOT NULL,
+    IsRequestor TINYINT(1) NOT NULL,
     HoursWorked INT(3) UNSIGNED
 );");
 $stmt->execute();
