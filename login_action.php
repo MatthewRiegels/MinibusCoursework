@@ -1,38 +1,61 @@
 <?php
-//header('Location: submission.php');// for testing comment this line out
+//header('Location: login.php');// for testing comment this line out
 include_once('connection.php');
 session_start();
 
 // Display all form data for testing
 echo('Email: ' . $_POST['Email'] . '<br>');
 echo('Password: ' . $_POST['Password'] . '<br>');
-    
-// Validation
-$valid = 'True';
-if (empty($_POST['Email']) || empty($_POST['Password'])){
-    $valid = 'False';
+
+// Check if credentials are correct (no hashing used at this point in the implementation - will come back later)
+$stmt = $conn->prepare('SELECT Password FROM TblUsers WHERE Email = "' . $_POST['Email'] . '"');
+$stmt->execute();
+$arr = $stmt->fetch(PDO::FETCH_ASSOC);
+$stmt->closeCursor();
+
+// Check if user email exists on database
+$user_found = 'True';
+if (empty($arr)){// this means that there is no user with that email
+    echo('no user found with email address "' . $_POST['Email'] . '"<br>');
+    $user_found = 'False';
+}
+else{
+    echo('TblUsers Password: ' . $arr['Password'] . '<br>');// displays password stored on TblUsers - obviously this is just for testing
 }
 
-// Display valid for testing
-echo('<br>');
-echo('Valid: ' . $valid . '<br>');
+// Check if passwords match and log in if all correct
+if ($user_found == 'True'){
+    if ($arr['Password'] == $_POST['Password']){// password from TblUsers = password from form --> credentials correct
+        echo('Passwords match - access granted<br>');
+        // Query TblUsers for details and add to session
+        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE Password = ' . $_POST['Password']);
+        $stmt->execute();
+        $arr2 = $stmt->fetch(PDO::FETCH_ASSOC);
+        $stmt->closeCursor();
+        $_SESSION['UserID'] = $arr2['UserID'];
+        $_SESSION['Email'] = $arr2['Email'];
+        $_SESSION['TelephoneNumber'] = $arr2['TelephoneNumber'];
+        $_SESSION['Forename'] = $arr2['Forename'];
+        $_SESSION['Surname'] = $arr2['Surname'];
+        $_SESSION['IsDriver'] = $arr2['IsDriver'];
+        $_SESSION['IsAdmin'] = $arr2['IsAdmin'];
+        $_SESSION['IsRequestor'] = $arr2['IsRequestor'];
+        $_SESSION['HoursWorked'] = $arr2['HoursWorked'];
 
-if ($valid == 'True'){
-    // Check if password is correct (no hashing used at this point in the implementation - will come back later)
-    $stmt = $conn->prepare('SELECT Password FROM TblUsers WHERE Email = "' . $_POST['Email'] . '"');
-    $stmt->execute();
-
-    $arr = $stmt->fetch(PDO::FETCH_ASSOC);
-    if (empty($arr)){
-        echo('empty');// this means that there is no user with that email
+        // Display session data for testing
+        echo('Displaying session data:<br>');
+        echo('UserID: ' . $_SESSION['UserID'] . '<br>');
+        echo('Email: ' . $_SESSION['Email'] . '<br>');
+        echo('TelephoneNumber: ' . $_SESSION['TelephoneNumber'] . '<br>');
+        echo('Forename: ' . $_SESSION['Forename'] . '<br>');
+        echo('Surname: ' . $_SESSION['Surname'] . '<br');
+        echo('IsDriver: ' . $_SESSION['IsDriver'] . '<br>');
+        echo('IsAdmin: ' . $_SESSION['IsAdmin'] . '<br>');
+        echo('IsRequestor: ' . $_SESSION['IsRequestor'] . '<br>');
+        echo('HoursWorked: ' . $_SESSION['HoursWorked'] . '<br');
     }
     else{
-        echo('Password: ' . $arr['Password'] . '<br>');// displays password stored on tblUsers - obviously this is just for testing
-    }
-
-    if ($arr['Password'] == $_POST['Password']){
-        echo('Passwords match - access granted');
-        // query for user details and add to $_SESSION
+        echo('Incorrect password<br>');
     }
 }
 ?>
