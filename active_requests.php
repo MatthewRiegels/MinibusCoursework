@@ -8,6 +8,7 @@ function showRequest($requestData){
         '<div class="date-container">' . $requestData['DateOfJob'] . '</div>' . 
         '<div class="time-container">' . $requestData['TimeOut'] . '-' . $requestData['TimeIn'] . '</div>' . 
         '<div class="purpose-container">' . $requestData['Purpose'] . '</div>' . 
+        '<button class="details-button" onclick=\'goToDetails("' . $requestData['RequestID'] . '")\'>--></button>' . 
         '</div>'
     );
 }
@@ -42,14 +43,27 @@ function showRequest($requestData){
                 width: fit-content;
                 display:inline-block;
             }
+            .details-button{
+                display:inline-block;
+                float:right;
+            }
         </style>
+        <script type="text/javascript">
+            function goToDetails($chosenID){
+                document.getElementById('hiddenInput').value = $chosenID;
+                document.getElementById('goToDetailsForm').submit();
+            }
+        </script>
     </head>
     <body>
+        <form id="goToDetailsForm" method="post" action="request_details.php">
+            <input type="hidden" name="chosenRequestID" id="hiddenInput">
+        </form>
         <?php
         echo('<h1>' . $_SESSION['Forename'] . ' ' . $_SESSION['Surname'] . "'s Active Requests</h1>");
 
         echo('<h2>Accepted Jobs</h2>');
-        $stmt1 = $conn->prepare('SELECT DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
+        $stmt1 = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                  WHERE RequestorID = ' . $_SESSION['UserID'] . ' AND DriverID IS NOT NULL AND VehicleID IS NOT NULL');
         $stmt1->execute();
         while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
@@ -57,7 +71,7 @@ function showRequest($requestData){
         }
 
         echo('<h2>Pending Jobs</h2>');
-        $stmt2 = $conn->prepare('SELECT DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
+        $stmt2 = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                  WHERE RequestorID = ' . $_SESSION['UserID'] . ' AND ( DriverID IS NULL OR VehicleID IS NULL )');
         $stmt2->execute();
         while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)){
