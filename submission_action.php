@@ -1,5 +1,5 @@
 <?php
-//header('Location: submission.php'); // for testing comment this line out
+header('Location: submission.php');
 include_once('connection.php');
 session_start();
 
@@ -11,14 +11,14 @@ if (!isset($_POST['DriverRequired'])){
 } 
 
 // Displaying all values for testing purposes
-echo('DateOfJob: ' . $_POST['DateOfJob'] . '<br>');
-echo('TimeOut: ' . $_POST['TimeOut'] . '<br>');
-echo('TimeIn: ' . $_POST['TimeIn'] . '<br>');
-echo('Destination: ' . $_POST['Destination'] . '<br>');
-echo('Postcode: ' . $_POST['Postcode'] . '<br>');
-echo('RequiredCapacity: ' . $_POST['RequiredCapacity'] . '<br>');
-echo('Purpose: ' . $_POST['Purpose'] . '<br>');
-echo('DriverRequired: ' . $_POST['DriverRequired'] . '<br>');
+// echo('DateOfJob: ' . $_POST['DateOfJob'] . '<br>');
+// echo('TimeOut: ' . $_POST['TimeOut'] . '<br>');
+// echo('TimeIn: ' . $_POST['TimeIn'] . '<br>');
+// echo('Destination: ' . $_POST['Destination'] . '<br>');
+// echo('Postcode: ' . $_POST['Postcode'] . '<br>');
+// echo('RequiredCapacity: ' . $_POST['RequiredCapacity'] . '<br>');
+// echo('Purpose: ' . $_POST['Purpose'] . '<br>');
+// echo('DriverRequired: ' . $_POST['DriverRequired'] . '<br>');
 
 // Validation
 $valid = 'True';
@@ -33,8 +33,7 @@ if (!ctype_alnum($postcode_stripped)){
 }
 
 // Output validity for testing purposes
-echo('<br>');
-echo('Valid: ' . $valid . '<br>');
+// echo('Valid: ' . $valid . '<br>');
 
 // Determine how to add DriverID to table
 // If driver is required, DriverID is left blank so it can be filled with the ID of a driver that accepts the job
@@ -51,8 +50,7 @@ $requestorID = $_SESSION['UserID'];
 
 // Add record to TblRequests
 if ($valid == true){
-    $stmt = $conn->prepare('INSERT INTO TblRequests 
-                            (RequestID,DateOfJob,TimeOut,TimeIn,Destination,Postcode,Purpose,ReqCapacity,DriverID,VehicleID,RequestorID)
+    $stmt = $conn->prepare('INSERT INTO TblRequests (RequestID,DateOfJob,TimeOut,TimeIn,Destination,Postcode,Purpose,ReqCapacity,DriverID,VehicleID,RequestorID)
                             VALUES (null,:DateOfJob,:TimeOut,:TimeIn,:Destination,:Postcode,:Purpose,:ReqCapacity,:DriverID,null,:RequestorID)');
     $stmt->bindParam(':DateOfJob', $_POST['DateOfJob']);
     $stmt->bindParam(':TimeOut', $_POST['TimeOut']);
