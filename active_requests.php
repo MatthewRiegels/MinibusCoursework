@@ -4,7 +4,7 @@ session_start();
 
 function showRequest($requestData){
     echo(
-        '<div class="request-container">' . 
+        '<div class="list-item-container">' . 
         '<div class="date-container">' . $requestData['DateOfJob'] . '</div>' . 
         '<div class="time-container">' . $requestData['TimeOut'] . '-' . $requestData['TimeIn'] . '</div>' . 
         '<div class="purpose-container">' . $requestData['Purpose'] . '</div>' . 
@@ -18,36 +18,7 @@ function showRequest($requestData){
 <html>
     <head>
         <title>Active Requests</title>
-        <style>
-            .request-container{
-                background-color: #EAECF3;
-                border: 2px solid black;
-                border-radius: 10px;
-                margin: 2px;
-                padding: 5px;
-                width: 380px;
-            }
-            .date-container{
-                font-weight: bold;
-                width: fit-content;
-                display:inline-block;
-                margin-right: 10px;
-            }
-            .time-container{
-                font-style: italic;
-                width: fit-content;
-                display:inline-block;
-                margin-right: 10px;
-            }
-            .purpose-container{
-                width: fit-content;
-                display:inline-block;
-            }
-            .details-button{
-                display:inline-block;
-                float:right;
-            }
-        </style>
+        <link rel="stylesheet" href="styles.css">
         <script type="text/javascript">
             function goToDetails($chosenID){
                 document.getElementById('hiddenInput').value = $chosenID;

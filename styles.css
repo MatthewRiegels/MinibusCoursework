@@ -1,0 +1,27 @@
+.list-item-container{
+    background-color: #EAECF3;
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 2px;
+    padding: 5px;
+    width: 380px;
+}
+.date-container{
+    font-weight: bold;
+    width: fit-content;
+    display:inline-block;
+    margin-right: 10px;
+}
+.time-container{
+    font-style: italic;
+    width: fit-content;
+    display:inline-block;
+    margin-right: 10px;
+}
+.purpose-container{
+    width: fit-content;
+    display:inline-block;
+}
+.details-button{
+    float:right;
+}
