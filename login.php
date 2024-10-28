@@ -11,8 +11,8 @@ session_start();
     <body>
         <!-- form for entering credentials -->
         <form action='login_action.php' method = 'post'>
-            Email:<input type='text' name='Email' maxlength='50' required><br>
-            Password:<input type='password' name='Password' minlength='6' required><br>
+            Email:<input type='text' name='FormEmail' maxlength='50' required><br>
+            Password:<input type='password' name='FormPassword' minlength='6' required><br>
             <input type='submit' value='Login'>
         </form>
     </body>
