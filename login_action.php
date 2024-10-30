@@ -28,7 +28,7 @@ if ($user_found == 'True'){
     if ($arr['Password'] == $_POST['FormPassword']){// password from TblUsers = password from form --> credentials correct
         echo('Passwords match - access granted<br>');
         // Query TblUsers for details and add to session
-        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE Password = ' . $_POST['FormPassword']);
+        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE Password = "' . $_POST['FormPassword'] . '"');
         $stmt->execute();
         $arr2 = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
