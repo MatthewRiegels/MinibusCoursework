@@ -22,7 +22,9 @@ session_start();
 
         <?php
         // All requests where DriverID is null --> all requests which need a driver and don't have one
-        $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests WHERE DriverID IS NULL');
+        // And RequestID is not one that the user has declined already
+        $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests WHERE DriverID IS NULL
+                                AND RequestID NOT IN (SELECT RequestID FROM TblDeclinedDrivers WHERE DriverID = "' . $_SESSION['UserID'] . '")');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             showRequest($row);
