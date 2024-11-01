@@ -88,6 +88,19 @@ session_start();
             echo('<input class="accept-request-submit-button" type="submit" value="Accept request">');
             echo('</form>');
         }
+
+        // Declining request (only available to drivers)
+        if($_SESSION['IsDriver'] == 1){// If the current user is a driver
+            echo('<br>');
+            // Create a hidden form with only the submit button visible
+            // Inputs are autofilled: ID of request to be declined, ID of driver declining it, and URL of previous page for redirecting
+            echo('<form id="declineRequestForm" method="post" action="decline_request.php">');
+            echo('<input type="hidden" name="declinedRequestID" value="' . $_POST['chosenRequestID'] . '">');
+            echo('<input type="hidden" name="decliningDriverID" value="' . $_SESSION['UserID'] . '">');
+            echo('<input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">');
+            echo('<input class="decline-request-submit-button" type="submit" value="Decline request">');
+            echo('</form>');
+        }
         ?>
     </body>
 </html>
