@@ -54,7 +54,8 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblDeclinedDrivers;
 CREATE TABLE TblDeclinedDrivers (
     DriverID INT(4) UNSIGNED NOT NULL,
-    RequestID INT(4) UNSIGNED NOT NULL
+    RequestID INT(4) UNSIGNED NOT NULL,
+    PRIMARY KEY (DriverID, RequestID)
 );");
 $stmt->execute();
 $stmt->closeCursor();
