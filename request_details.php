@@ -75,6 +75,19 @@ session_start();
             echo('<input class="cancel-request-submit-button" type="submit" value="Cancel request">');
             echo('</form>');
         }
+
+        // Accepting request (only available to drivers, and only if this request is pending driver assignment)
+        if($_SESSION['IsDriver'] == 1 && $requestArr['DriverID'] == null){// If the current user is a driver AND this request is pending driver assignment
+            echo('<br>');
+            // Create a hidden form with only the submit button visible
+            // Inputs are autofilled: ID of request to be accepted, ID of driver accepting it, and URL of previous page for redirecting
+            echo('<form id="acceptRequestForm" method="post" action="accept_request.php">');
+            echo('<input type="hidden" name="acceptedRequestID" value="' . $_POST['chosenRequestID'] . '">');
+            echo('<input type="hidden" name="acceptingDriverID" value="' . $_SESSION['UserID'] . '">');
+            echo('<input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">');
+            echo('<input class="accept-request-submit-button" type="submit" value="Accept request">');
+            echo('</form>');
+        }
         ?>
     </body>
 </html>
