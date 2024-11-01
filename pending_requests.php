@@ -1,18 +1,7 @@
 <?php
 include_once('connection.php');
+include_once('functions.php');
 session_start();
-
-// This function creates a list item out of a TblRequests record
-function showRequest($requestData){
-    echo(
-        '<div class="list-item-container">' . 
-        '<div class="date-container">' . $requestData['DateOfJob'] . '</div>' . 
-        '<div class="time-container">' . $requestData['TimeOut'] . '-' . $requestData['TimeIn'] . '</div>' . 
-        '<div class="purpose-container">' . $requestData['Purpose'] . '</div>' . 
-        '<button class="details-button" onclick=\'goToDetails("' . $requestData['RequestID'] . '")\'>--></button>' . 
-        '</div>'
-    );
-}
 ?>
 
 <!DOCTYPE html>
@@ -20,13 +9,7 @@ function showRequest($requestData){
     <head>
         <title>Pending Requests</title>
         <link rel="stylesheet" href="styles.css">
-        <script type="text/javascript">
-            // This js function handles the onclick event to redirect to request_details.php and post the chosen request id and this page's url
-            function goToDetails($chosenID){
-                document.getElementById('hiddenInput').value = $chosenID;
-                document.getElementById('goToDetailsForm').submit();
-            }
-        </script>
+        <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
         <!-- Hidden form for scripting purposes - js powered button will add values and submit it -->
