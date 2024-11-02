@@ -89,8 +89,14 @@ session_start();
             echo('</form>');
         }
 
-        // Declining request (only available to drivers)
-        if($_SESSION['IsDriver'] == 1){// If the current user is a driver
+        // Declining request (only available to drivers who haven't declined the request already)
+        // This query is for determining whether the current user has declined this request
+        $stmt = $conn->prepare('SELECT * FROM TblDeclinedDrivers
+                                WHERE DriverID = "' . $_SESSION['UserID'] . '" AND  RequestID = "' . $_POST['chosenRequestID'] . '"');
+        $stmt->execute();
+        $arr = $stmt->fetch(PDO::FETCH_ASSOC);// If this array is empty, there is no record on TblDeclinedDrivers with this UserID and RequestID
+        $stmt->closeCursor();
+        if($_SESSION['IsDriver'] == 1 && empty($arr)){// If the current user is a driver AND the current user has not declined this request
             echo('<br>');
             // Create a hidden form with only the submit button visible
             // Inputs are autofilled: ID of request to be declined, ID of driver declining it, and URL of previous page for redirecting
