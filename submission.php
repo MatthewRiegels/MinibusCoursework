@@ -1,3 +1,9 @@
+<?php
+session_start();
+include_once('functions.php');
+checkRole($_SESSION, 1, 0, 0);
+?>
+
 <!DOCTYPE html>
 <html>
     <head>

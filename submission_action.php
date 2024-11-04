@@ -1,7 +1,9 @@
 <?php
 header('Location: submission.php');
 include_once('connection.php');
+include_once('functions.php');
 session_start();
+checkRole($_SESSION, 1, 0, 0);
 
 // Form input management
 // The checkbox input will not define $_POST['DriverRequired'] if the box is unchecked, but will hold the value 'on' if it is checked

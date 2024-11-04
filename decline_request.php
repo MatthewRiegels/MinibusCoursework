@@ -1,6 +1,11 @@
 <?php
+// This is a script page for a driver declining a request
+
 header('Location: ' . $_POST['redirectURL']);
 include_once('connection.php');
+include_once('functions.php');
+session_start();
+checkRole($_SESSION, 0, 1, 0);
 
 // Display all values for testing
 // echo('redirectURL: ' . $_POST['redirectURL'] . '<br>');

@@ -1,7 +1,9 @@
 <?php
 header('Location:');
 include_once('connection.php');
+include_once('functions.php');
 session_start();
+checkRole($_SESSION, x, x, x);
 ?>
 
 <!DOCTYPE html>
