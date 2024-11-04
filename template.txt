@@ -11,6 +11,7 @@ checkRole($_SESSION, x, x, x);
     <head>
         <title></title>
         <link rel="stylesheet" href="styles.css">
+        <script src='functions.js'></script>
     </head>
     <body>
         
