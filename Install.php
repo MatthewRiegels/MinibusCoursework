@@ -1,6 +1,6 @@
 <?php
-// this code creates empty versions of every table the system uses
-// this code is not meant to be run regularly; only once when implemented.
+// This code creates empty versions of every table the system uses
+// This code is not meant to be run regularly; only once when implemented.
 
 include_once("connection.php");
 
@@ -19,7 +19,7 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("DROP TABLE IF EXISTS TblUsers;
 CREATE TABLE TblUsers (
     UserID INT(4) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-    Password VARCHAR(60) NOT NULL,
+    Password VARCHAR(255) NOT NULL,
     Email VARCHAR(50) NOT NULL,
     TelephoneNumber Varchar(11) NOT NULL,
     Forename VARCHAR(30) NOT NULL,
@@ -71,9 +71,10 @@ $stmt->closeCursor();
 
 // TblUsers
 $stmt = $conn->prepare("INSERT INTO TblUsers (Password, Email, TelephoneNumber, Forename, Surname, IsDriver, IsAdmin, IsRequestor, HoursWorked) VALUES
-('123456', 'smith.j@oundleschool.org.uk', '07305712268', 'John', 'Smith', 0, 0, 1, NULL),
-('ABCDEF', 'ferret.ro@oundleschool.org.uk', '07305724379', 'Ronald', 'Ferret', 1, 0, 0, 3),
-('P455W0RD', 'doe.j@oundleschool.org.uk', '07303836152', 'Jane', 'Doe', 0, 0, 1, NULL)
+('" . password_hash('123456', PASSWORD_BCRYPT) . "', 'smith.j@oundleschool.org.uk', '07305712268', 'John', 'Smith', 0, 0, 1, NULL),
+('" . password_hash('ABCDEF', PASSWORD_BCRYPT) . "', 'ferret.ro@oundleschool.org.uk', '07305724379', 'Ronald', 'Ferret', 1, 0, 0, 3),
+('" . password_hash('P455W0RD', PASSWORD_BCRYPT) . "', 'doe.j@oundleschool.org.uk', '07303836152', 'Jane', 'Doe', 0, 0, 1, NULL),
+('" . password_hash('4DM1NPWD', PASSWORD_BCRYPT) . "', 'admin@oundleschool.org.uk', '07538946537', 'Kristian', 'Fewster', 0, 1, 0, NULL)
 ");
 $stmt->execute();
 $stmt->closeCursor();

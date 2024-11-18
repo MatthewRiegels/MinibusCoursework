@@ -4,8 +4,8 @@ include_once('connection.php');
 session_start();
 
 // Display all form data for testing
-echo('Email: ' . $_POST['FormEmail'] . '<br>');
-echo('Password: ' . $_POST['FormPassword'] . '<br>');
+echo('FormEmail: ' . $_POST['FormEmail'] . '<br>');
+echo('FormPassword: ' . $_POST['FormPassword'] . '<br>');
 
 // Check if credentials are correct (no hashing used at this point in the implementation - will come back later)
 $stmt = $conn->prepare('SELECT Password FROM TblUsers WHERE Email = "' . $_POST['FormEmail'] . '"');
@@ -25,10 +25,10 @@ else{
 
 // Check if passwords match and log in if all correct
 if ($user_found == 'True'){
-    if ($arr['Password'] == $_POST['FormPassword']){// password from TblUsers = password from form --> credentials correct
+    if (password_verify($_POST['FormPassword'], $arr['Password'])){// password from TblUsers = password from form --> credentials correct
         echo('Passwords match - access granted<br>');
         // Query TblUsers for details and add to session
-        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE Password = "' . $_POST['FormPassword'] . '"');
+        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE Password = "' . $arr['Password'] . '"');
         $stmt->execute();
         $arr2 = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
