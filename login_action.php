@@ -7,7 +7,7 @@ session_start();
 echo('FormEmail: ' . $_POST['FormEmail'] . '<br>');
 echo('FormPassword: ' . $_POST['FormPassword'] . '<br>');
 
-// Check if credentials are correct (no hashing used at this point in the implementation - will come back later)
+// Check if credentials are correct
 $stmt = $conn->prepare('SELECT Password FROM TblUsers WHERE Email = "' . $_POST['FormEmail'] . '"');
 $stmt->execute();
 $arr = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -20,7 +20,7 @@ if (empty($arr)){// this means that there is no user with that email
     $user_found = 'False';
 }
 else{
-    echo('TblUsers Password: ' . $arr['Password'] . '<br>');// displays password stored on TblUsers - obviously this is just for testing
+    echo('TblUsers Password: ' . $arr['Password'] . '<br>');// displays password hash stored on TblUsers - obviously this is just for testing
 }
 
 // Check if passwords match and log in if all correct
@@ -48,7 +48,7 @@ if ($user_found == 'True'){
         echo('Email: ' . $_SESSION['Email'] . '<br>');
         echo('TelephoneNumber: ' . $_SESSION['TelephoneNumber'] . '<br>');
         echo('Forename: ' . $_SESSION['Forename'] . '<br>');
-        echo('Surname: ' . $_SESSION['Surname'] . '<br');
+        echo('Surname: ' . $_SESSION['Surname'] . '<br>');
         echo('IsDriver: ' . $_SESSION['IsDriver'] . '<br>');
         echo('IsAdmin: ' . $_SESSION['IsAdmin'] . '<br>');
         echo('IsRequestor: ' . $_SESSION['IsRequestor'] . '<br>');
