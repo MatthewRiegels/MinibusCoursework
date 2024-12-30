@@ -21,7 +21,7 @@ function checkRole($sessionData, $isRequestorReq, $isDriverReq, $isAdminReq){
         $allowed = 'False';
     }
     elseif ($sessionData['IsRequestor'] < $isRequestorReq || $sessionData['IsDriver'] < $isDriverReq || $sessionData['IsAdmin'] < $isAdminReq){
-        // The user should be redirected if they fo not have the required role for the page
+        // The user should be redirected if they do not have the required role for the page
         $allowed = 'False';
     }
     if ($allowed == 'False'){
