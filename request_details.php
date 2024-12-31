@@ -10,6 +10,7 @@ checkRole($_SESSION, 0, 0, 0);
     <head>
         <title>Request Details</title>
         <link rel="stylesheet" href="styles.css">
+        <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
         <a href="<?php echo($_POST['redirectURL']); ?>">Back to previous page</a>

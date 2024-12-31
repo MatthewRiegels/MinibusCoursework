@@ -4,10 +4,23 @@
 function showRequest($requestData){
     echo(
         '<div class="list-item-container">' . 
-        '<div class="date-container">' . $requestData['DateOfJob'] . '</div>' . 
-        '<div class="time-container">' . $requestData['TimeOut'] . '-' . $requestData['TimeIn'] . '</div>' . 
-        '<div class="purpose-container">' . $requestData['Purpose'] . '</div>' . 
+        '<div class="bold-container">' . $requestData['DateOfJob'] . '</div>' . 
+        '<div class="italics-container">' . $requestData['TimeOut'] . '-' . $requestData['TimeIn'] . '</div>' . 
+        '<div class="plain-container">' . $requestData['Purpose'] . '</div>' . 
         '<button class="details-button" onclick=\'goToDetails("' . $requestData['RequestID'] . '")\'>--></button>' . 
+        '</div>'
+    );
+}
+
+// This function creates a list item out of a TblVehicles record (similar to above)
+// NB this function calls goToDetails, so that must be included in the page if this function is to be used
+function showVehicle($vehicleData){
+    echo(
+        '<div class="list-item-container">' . 
+        '<div class="bold-container">' . $vehicleData['RegNumber'] . '</div>' . 
+        '<div class="plain-container">Capacity ' . $vehicleData['Capacity'] . '</div>' . 
+        '<div class="italics-container">Available until ' . $vehicleData['NotAvailableFrom'] . '</div>' . 
+        '<button class="details-button" onclick=\'goToDetails("' . $vehicleData['VehicleID'] . '")\'>--></button>' . 
         '</div>'
     );
 }

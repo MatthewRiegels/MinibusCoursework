@@ -4,23 +4,24 @@
     border-radius: 10px;
     margin: 2px;
     padding: 5px;
-    width: 400px;
+    width: 410px;
 }
-.date-container{
+.bold-container{
     font-weight: bold;
     width: fit-content;
     display:inline-block;
     margin-right: 10px;
 }
-.time-container{
+.italics-container{
     font-style: italic;
     width: fit-content;
     display:inline-block;
     margin-right: 10px;
 }
-.purpose-container{
+.plain-container{
     width: fit-content;
     display:inline-block;
+    margin-right: 10px;
 }
 .details-button{
     float:right;
