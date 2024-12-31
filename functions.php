@@ -69,4 +69,15 @@ function checkRole($sessionData, $isRequestorReq, $isDriverReq, $isAdminReq){
         die('Access denied: incorrect user roles');
     }
 }
+
+// This function creates the hidden form for the js function goToDetails
+// the values are autofilled and the form is submitted by the js function
+function hiddenDetailForm($actionPage, $redirect_url){
+    echo('
+        <form id="goToDetailsForm" method="post" action="' . $actionPage . '">
+            <input type="hidden" name="chosenID" id="hiddenInput">
+            <input type="hidden" name="redirectURL" value="' . $redirect_url . '">
+        </form>
+    ');
+}
 ?>

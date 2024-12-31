@@ -13,13 +13,9 @@ checkRole($_SESSION, 0, 1, 0);
         <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
-        <!-- Hidden form for scripting purposes - js powered button will add values and submit it -->
-        <form id="goToDetailsForm" method="post" action="request_details.php">
-            <input type="hidden" name="chosenRequestID" id="hiddenInput">
-            <input type="hidden" name="redirectURL" value="declined_jobs.php">
-        </form>
-
         <?php
+        hiddenDetailForm("request_details.php", "declined_jobs.php");
+
         // This just prints out the current user's name: "<h1>Ronald Ferret's Declined Jobs</h1>", for example
         echo('<h1>' . $_SESSION['Forename'] . ' ' . $_SESSION['Surname'] . "'s Declined Jobs</h1>");
 

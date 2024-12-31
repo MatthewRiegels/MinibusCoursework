@@ -13,15 +13,11 @@ checkRole($_SESSION, 0, 0, 1);
         <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
-        <!-- Hidden form for scripting purposes - js powered button will add values and submit it -->
-        <form id="goToDetailsForm" method="post" action="request_details.php">
-            <input type="hidden" name="chosenRequestID" id="hiddenInput">
-            <input type="hidden" name="redirectURL" value="pending_requests_admin.php">
-        </form>
-
         <h1>Pending Requests</h1>
 
         <?php
+        hiddenDetailForm("request_details.php", "pending_requests_admin.php");
+
         // All requests where DriverID is null --> all requests which need a driver and don't have one
         // All requests where VehicleID is null --> all requests which need a vehicle and don't have one
         $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests

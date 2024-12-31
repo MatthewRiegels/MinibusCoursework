@@ -13,15 +13,11 @@ checkRole($_SESSION, 0, 0, 1);
         <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
-        <!-- Hidden form for scripting purposes - js powered button will add values and submit it -->
-        <form id="goToDetailsForm" method="post" action="vehicle_details.php">
-            <input type="hidden" name="chosenVehicleID" id="hiddenInput">
-            <input type="hidden" name="redirectURL" value="vehicle_overview.php">
-        </form>
-
         <h1>Vehicle Overview</h1>
 
         <?php
+        hiddenDetailForm("vehicle_details.php", "vehicle_overview.php");
+
         $stmt = $conn->prepare('SELECT * FROM TblVehicles');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){

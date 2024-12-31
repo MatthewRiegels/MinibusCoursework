@@ -17,7 +17,7 @@ checkRole($_SESSION, 0, 0, 0);
         <h1>Request Details</h1>
         <?php
         // Request details
-        $stmt = $conn->prepare('SELECT * FROM TblRequests WHERE RequestID = "' . $_POST['chosenRequestID'] . '"');
+        $stmt = $conn->prepare('SELECT * FROM TblRequests WHERE RequestID = "' . $_POST['chosenID'] . '"');
         $stmt->execute();
         $requestArr = $stmt->fetch(PDO::FETCH_ASSOC);
         $stmt->closeCursor();
@@ -73,7 +73,7 @@ checkRole($_SESSION, 0, 0, 0);
             // Create a hidden form with only the submit button visible
             // Inputs are autofilled: ID of request to be cancelled, and URL of previous page for redirecting
             echo('<form id="cancelRequestForm" method="post" action="cancel_request.php">');
-            echo('<input type="hidden" name="cancelledRequestID" value="' . $_POST['chosenRequestID'] . '">');
+            echo('<input type="hidden" name="cancelledRequestID" value="' . $_POST['chosenID'] . '">');
             echo('<input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">');
             echo('<input class="cancel-request-submit-button" type="submit" value="Cancel request">');
             echo('</form>');
@@ -85,7 +85,7 @@ checkRole($_SESSION, 0, 0, 0);
             // Create a hidden form with only the submit button visible
             // Inputs are autofilled: ID of request to be accepted, ID of driver accepting it, and URL of previous page for redirecting
             echo('<form id="acceptRequestForm" method="post" action="accept_request.php">');
-            echo('<input type="hidden" name="acceptedRequestID" value="' . $_POST['chosenRequestID'] . '">');
+            echo('<input type="hidden" name="acceptedRequestID" value="' . $_POST['chosenID'] . '">');
             echo('<input type="hidden" name="acceptingDriverID" value="' . $_SESSION['UserID'] . '">');
             echo('<input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">');
             echo('<input class="accept-request-submit-button" type="submit" value="Accept request">');
@@ -95,7 +95,7 @@ checkRole($_SESSION, 0, 0, 0);
         // Declining request (only available to drivers who haven't declined the request already)
         // This query is for determining whether the current user has declined this request
         $stmt = $conn->prepare('SELECT * FROM TblDeclinedDrivers
-                                WHERE DriverID = "' . $_SESSION['UserID'] . '" AND  RequestID = "' . $_POST['chosenRequestID'] . '"');
+                                WHERE DriverID = "' . $_SESSION['UserID'] . '" AND  RequestID = "' . $_POST['chosenID'] . '"');
         $stmt->execute();
         $arr = $stmt->fetch(PDO::FETCH_ASSOC);// If this array is empty, there is no record on TblDeclinedDrivers with this UserID and RequestID
         $stmt->closeCursor();
@@ -104,7 +104,7 @@ checkRole($_SESSION, 0, 0, 0);
             // Create a hidden form with only the submit button visible
             // Inputs are autofilled: ID of request to be declined, ID of driver declining it, and URL of previous page for redirecting
             echo('<form id="declineRequestForm" method="post" action="decline_request.php">');
-            echo('<input type="hidden" name="declinedRequestID" value="' . $_POST['chosenRequestID'] . '">');
+            echo('<input type="hidden" name="declinedRequestID" value="' . $_POST['chosenID'] . '">');
             echo('<input type="hidden" name="decliningDriverID" value="' . $_SESSION['UserID'] . '">');
             echo('<input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">');
             echo('<input class="decline-request-submit-button" type="submit" value="Decline request">');

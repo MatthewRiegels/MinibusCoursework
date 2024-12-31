@@ -13,16 +13,13 @@ checkRole($_SESSION, 0, 0, 0);
         <script src="functions.js" type="text/javascript"></script>
     </head>
     <body>
-        <!-- Hidden form for scripting purposes - js powered button will add values and submit it -->
-        <form id="goToDetailsForm" method="post" action="request_details.php">
-            <input type="hidden" name="chosenRequestID" id="hiddenInput">
-            <input type="hidden" name="redirectURL" value="<?php echo($_POST["redirectURL"]); ?>">
-        </form>
-
         <a href="<?php echo($_POST['redirectURL']); ?>">Back to previous page</a>
+
         <?php
+        hiddenDetailForm("request_details.php", $_POST["redirectURL"]);
+
         // Fetch and display record data from TblUsers
-        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE UserID = "' . $_POST["chosenUserID"] . '"');
+        $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE UserID = "' . $_POST["chosenID"] . '"');
         $stmt->execute();
         $arr = $stmt->fetch(PDO::FETCH_ASSOC);
         echo("<h1>" . $arr["Forename"] . " " . $arr["Surname"] . "'s details</h1>");
@@ -49,7 +46,7 @@ checkRole($_SESSION, 0, 0, 0);
                 // Listing all future jobs assigned to this driver
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s assigned jobs</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                        WHERE DriverID = "' . $_POST["chosenUserID"] . '"
+                                        WHERE DriverID = "' . $_POST["chosenID"] . '"
                                         AND DateOfJob >= "' . date("Y-m-d") . '"');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -59,7 +56,7 @@ checkRole($_SESSION, 0, 0, 0);
                 // Listing all past jobs driven by this driver
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s job history</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                        WHERE DriverID = "' . $_POST["chosenUserID"] . '"
+                                        WHERE DriverID = "' . $_POST["chosenID"] . '"
                                         AND DateOfJob < "' . date("Y-m-d") . '"');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -72,7 +69,7 @@ checkRole($_SESSION, 0, 0, 0);
                 // Listing all the staff member's current requests
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s current requests</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                        WHERE RequestorID = "' . $_POST["chosenUserID"] . '"
+                                        WHERE RequestorID = "' . $_POST["chosenID"] . '"
                                         AND DateOfJob >= "' . date("Y-m-d") . '"');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
@@ -82,7 +79,7 @@ checkRole($_SESSION, 0, 0, 0);
                 // Listing the staff member's request history
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s request history</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                        WHERE RequestorID = "' . $_POST["chosenUserID"] . '"
+                                        WHERE RequestorID = "' . $_POST["chosenID"] . '"
                                         AND DateOfJob < "' . date("Y-m-d") . '"');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
