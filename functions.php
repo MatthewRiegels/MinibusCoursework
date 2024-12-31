@@ -25,6 +25,32 @@ function showVehicle($vehicleData){
     );
 }
 
+// This function creates a list item out of a TblUsers record FOR A DRIVER (similar to above)
+// NB as above, goToDetails must be included in the page if this function is to be used
+function showDriver($driverData){
+    echo(
+        '<div class="list-item-container">' . 
+        '<div class="bold-container">' . $driverData['Forename'] . ' ' . $driverData['Surname'] . '</div>' . 
+        '<div class="italics-container">' . $driverData['TelephoneNumber'] . '</div>' . 
+        '<div class="plain-container">(' . $driverData['HoursWorked'] . ' unpaid hours)</div>' . 
+        '<button class="details-button" onclick=\'goToDetails("' . $driverData['UserID'] . '")\'>--></button>' . 
+        '</div>'
+    );
+}
+
+// This function creates a list item out of a TblUsers record FOR A STAFF MEMBER (similar to above)
+// NB as above, goToDetails must be included in the page if this function is to be used
+function showStaffMember($staffMemberData){
+    echo(
+        '<div class="list-item-container">' . 
+        '<div class="bold-container">' . $staffMemberData['Forename'] . ' ' . $staffMemberData['Surname'] . '</div>' . 
+        '<div class="italics-container">' . $staffMemberData['Email'] . '</div>' . 
+        '<button class="details-button" onclick=\'goToDetails("' . $staffMemberData['UserID'] . '")\'>--></button>' . 
+        '</div>'
+    );
+}
+
+
 // This function checks if the user is logged in and if they have the right roles to access a page
 // This is run at the top of every page
 function checkRole($sessionData, $isRequestorReq, $isDriverReq, $isAdminReq){
