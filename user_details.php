@@ -47,7 +47,8 @@ checkRole($_SESSION, 0, 0, 0);
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s assigned jobs</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                         WHERE DriverID = "' . $_POST["chosenID"] . '"
-                                        AND DateOfJob >= "' . date("Y-m-d") . '"');
+                                        AND DateOfJob >= "' . date("Y-m-d") . '"
+                                        ORDER BY DateOfJob');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     showRequest($row);
@@ -57,7 +58,8 @@ checkRole($_SESSION, 0, 0, 0);
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s job history</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                         WHERE DriverID = "' . $_POST["chosenID"] . '"
-                                        AND DateOfJob < "' . date("Y-m-d") . '"');
+                                        AND DateOfJob < "' . date("Y-m-d") . '"
+                                        ORDER BY DateOfJob DESC');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     showRequest($row);
@@ -70,7 +72,8 @@ checkRole($_SESSION, 0, 0, 0);
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s current requests</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                         WHERE RequestorID = "' . $_POST["chosenID"] . '"
-                                        AND DateOfJob >= "' . date("Y-m-d") . '"');
+                                        AND DateOfJob >= "' . date("Y-m-d") . '"
+                                        ORDER BY DateOfJob');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     showRequest($row);
@@ -80,7 +83,8 @@ checkRole($_SESSION, 0, 0, 0);
                 echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s request history</b>");
                 $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
                                         WHERE RequestorID = "' . $_POST["chosenID"] . '"
-                                        AND DateOfJob < "' . date("Y-m-d") . '"');
+                                        AND DateOfJob < "' . date("Y-m-d") . '"
+                                        ORDER BY DateOfJob DESC');
                 $stmt->execute();
                 while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     showRequest($row);

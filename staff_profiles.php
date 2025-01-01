@@ -19,7 +19,9 @@ checkRole($_SESSION, 0, 0, 1);
         hiddenDetailForm("user_details.php", "staff_profiles.php");
 
         // Fetching & displaying list of records from TblUsers
-        $stmt = $conn->prepare('SELECT UserID, Forename, Surname, Email FROM TblUsers WHERE IsRequestor = 1');
+        $stmt = $conn->prepare('SELECT UserID, Forename, Surname, Email FROM TblUsers
+                                WHERE IsRequestor = 1
+                                ORDER BY Surname');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             showStaffMember($row);

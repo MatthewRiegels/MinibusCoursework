@@ -18,7 +18,8 @@ checkRole($_SESSION, 0, 0, 1);
         <?php
         hiddenDetailForm("vehicle_details.php", "vehicle_overview.php");
 
-        $stmt = $conn->prepare('SELECT * FROM TblVehicles');
+        $stmt = $conn->prepare('SELECT * FROM TblVehicles
+                                ORDER BY RegNumber');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             showVehicle($row);

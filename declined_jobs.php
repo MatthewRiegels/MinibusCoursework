@@ -20,8 +20,10 @@ checkRole($_SESSION, 0, 1, 0);
         echo('<h1>' . $_SESSION['Forename'] . ' ' . $_SESSION['Surname'] . "'s Declined Jobs</h1>");
 
         $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                 WHERE EXISTS (SELECT RequestID FROM TblDeclinedDrivers
-                                               WHERE TblRequests.RequestID = TblDeclinedDrivers.RequestID AND DriverID = "' . $_SESSION['UserID'] . '")');
+                                WHERE EXISTS (SELECT RequestID FROM TblDeclinedDrivers
+                                              WHERE TblRequests.RequestID = TblDeclinedDrivers.RequestID
+                                              AND DriverID = "' . $_SESSION['UserID'] . '")
+                                ORDER BY DateOfJob');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             showRequest($row);

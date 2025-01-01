@@ -20,7 +20,8 @@ checkRole($_SESSION, 0, 0, 1);
 
         // All requests where DateOfJob < current date --> all requests which are in the past
         $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                WHERE DateOfJob < "' . date('Y-m-d') . '"');
+                                WHERE DateOfJob < "' . date('Y-m-d') . '"
+                                ORDER BY DateOfJob DESC');
         $stmt->execute();
         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
             showRequest($row);
