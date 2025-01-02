@@ -80,4 +80,108 @@ function hiddenDetailForm($actionPage, $redirect_url){
         </form>
     ');
 }
+
+// This function produces the sidebar on every page
+// It will write out the links based on the current user's role
+function loadSidebar($sessionData){
+    echo('
+        <div id="sidebar">
+            <header>
+                <div width="100%" style="padding: 10%">
+                    <img src="oundle_enterprises_logo_white.png", width="100%">
+                </div>
+            </header>
+            <ul class="nav">
+    ');
+    if ($sessionData["IsRequestor"] == 1){
+        echo('
+                <li>
+                    <a href="submission.php">
+                        Submit a request
+                    </a>
+                </li>
+                <li>
+                    <a href="active_requests.php">
+                        Your active jobs
+                    </a>
+                </li>
+        ');
+    }
+    elseif ($sessionData["IsDriver"] == 1){
+        echo('
+                <li>
+                    <a href="pending_requests.php">
+                        View pending jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="accepted_jobs.php">
+                        Your accepted jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="declined_jobs.php">
+                        Your declined jobs
+                    </a>
+                </li>
+        ');
+    }
+    elseif ($sessionData["IsAdmin"] == 1){
+        echo('   
+                <li>
+                    <a href="pending_requests_admin.php">
+                        Pending jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="active_jobs.php">
+                        Active jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="job_history.php">
+                        Job history
+                    </a>
+                </li>
+                <li>
+                    <a href="vehicle_overview.php">
+                        Vehicle overview
+                    </a>
+                </li>
+                <li>
+                    <a href="Driver profiles.php">
+                        Driver profiles
+                    </a>
+                </li>
+                <li>
+                    <a href="staff_profiles.php">
+                        Staff profiles
+                    </a>
+                </li>
+                <li>
+                    <a href="add_user.php">
+                        Add new user
+                    </a>
+                </li>
+        ');
+    }
+    echo('
+            </ul>
+        </div>
+    ');
+}
+
+function loadNavbar($sessionData){
+    echo('
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="account_details.php">' . $sessionData["Forename"] . ' ' . $sessionData["Surname"] . '</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    ');
+}
 ?>
