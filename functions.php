@@ -93,8 +93,9 @@ function loadSidebar($sessionData){
             </header>
             <ul class="nav">
     ');
-    if ($sessionData["IsRequestor"] == 1){
-        echo('
+    if (!empty($sessionData)){
+        if ($sessionData["IsRequestor"] == 1){
+            echo('
                 <li>
                     <a href="submission.php">
                         Submit a request
@@ -105,10 +106,10 @@ function loadSidebar($sessionData){
                         Your requests
                     </a>
                 </li>
-        ');
-    }
-    elseif ($sessionData["IsDriver"] == 1){
-        echo('
+            ');
+        }
+        elseif ($sessionData["IsDriver"] == 1){
+            echo('
                 <li>
                     <a href="pending_requests.php">
                         View available jobs
@@ -124,10 +125,10 @@ function loadSidebar($sessionData){
                         Your declined jobs
                     </a>
                 </li>
-        ');
-    }
-    elseif ($sessionData["IsAdmin"] == 1){
-        echo('   
+            ');
+        }
+        elseif ($sessionData["IsAdmin"] == 1){
+            echo('   
                 <li>
                     <a href="pending_requests_admin.php">
                         Pending jobs
@@ -163,12 +164,13 @@ function loadSidebar($sessionData){
                         Add new user
                     </a>
                 </li>
-        ');
+            ');
+        }
     }
-    echo('
+        echo('
             </ul>
         </div>
-    ');
+        ');
 }
 
 function loadNavbar($sessionData){
@@ -176,9 +178,18 @@ function loadNavbar($sessionData){
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-right">
+    ');
+    if (!empty($sessionData)){
+        echo('
                     <li>
                         <a href="account_details.php">' . $sessionData["Forename"] . ' ' . $sessionData["Surname"] . '</a>
                     </li>
+                    <li>
+                        <a href="logout.php">Log out</a>
+                    </li>
+        ');
+    }
+    echo('
                 </ul>
             </div>
         </nav>
