@@ -1,7 +1,7 @@
 <?php
 // This is the script page for logging a user in (from login.php)
 
-// header('Location: login.php');
+header('Location: login.php');
 include_once('connection.php');
 session_start();
 
@@ -9,7 +9,7 @@ session_start();
 echo('FormEmail: ' . $_POST['FormEmail'] . '<br>');
 echo('FormPassword: ' . $_POST['FormPassword'] . '<br>');
 
-// Check if credentials are correct
+// Fetch password from TblUsers with email from form
 $stmt = $conn->prepare('SELECT Password FROM TblUsers WHERE Email = "' . $_POST['FormEmail'] . '"');
 $stmt->execute();
 $arr = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -22,7 +22,7 @@ if (empty($arr)){// this means that there is no user with that email
     $user_found = 'False';
 }
 else{
-    echo('TblUsers Password: ' . $arr['Password'] . '<br>');// displays password hash stored on TblUsers - obviously this is just for testing
+    echo('TblUsers Password: ' . $arr['Password'] . '<br>');// displays password hash stored on TblUsers
 }
 
 // Check if passwords match and log in if all correct
@@ -55,6 +55,17 @@ if ($user_found == 'True'){
         echo('IsAdmin: ' . $_SESSION['IsAdmin'] . '<br>');
         echo('IsRequestor: ' . $_SESSION['IsRequestor'] . '<br>');
         echo('HoursWorked: ' . $_SESSION['HoursWorked'] . '<br');
+
+        // Redirect management
+        if ($_SESSION["IsRequestor"] == 1){
+            header('Location: active_requests.php');
+        }
+        elseif ($_SESSION["IsDriver"] == 1){
+            header('Location: pending_requests.php');
+        }
+        elseif ($_SESSION["IsAdmin"] == 1){
+            header('Location: pending_requests_admin.php');
+        }
     }
     else{
         echo('Incorrect password<br>');
