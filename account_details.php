@@ -44,8 +44,8 @@ checkRole($_SESSION, 0, 0, 0);
                     ?>
                     <h2>Change Password</h2>
                     <form method='post' action='change_password.php'>
-                        Password:<input type='password' name='NewPassword'><br>
-                        Confirm Password:<input type='password' name='ConfirmPassword'><br>
+                        Password:<input type='password' name='NewPassword' minlength='6' required><br>
+                        Confirm Password:<input type='password' name='ConfirmPassword' minlength='6' required><br>
                         <input type='submit' value='Change password'>
                     </form>
                 </div>
