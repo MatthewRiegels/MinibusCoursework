@@ -26,7 +26,7 @@ checkRole($_SESSION, 0, 0, 0);
                 <!-- Stuff on the page -->
                 <div class="container-fluid">
                     <?php
-                    echo('<h1>' . $_SESSION['Forename'] . ' ' . $_SESSION['Surname'] . "'s Account Details</h1>");
+                    echo("<h1>Your Account</h1>");
 
                     $stmt = $conn->prepare('SELECT * FROM TblUsers WHERE UserID = "' . $_SESSION['UserID'] . '"');
                     $stmt->execute();
@@ -39,7 +39,7 @@ checkRole($_SESSION, 0, 0, 0);
                     echo('Email: ' . $userArr['Email'] . '<br>');
                     echo('Tel: ' . $userArr['TelephoneNumber'] . '<br>');
                     if ($userArr['IsDriver'] == 1){
-                        echo('Hours Worked: ' . $userArr['HoursWorked'] . '<br>');
+                        echo('Unpaid hours worked: ' . $userArr['HoursWorked'] . '<br>');
                     }
                     ?>
                     <h2>Change Password</h2>
