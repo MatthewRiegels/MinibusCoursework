@@ -12,6 +12,7 @@ checkRole($_SESSION, 1, 0, 0);
 // echo('redirectURL: ' . $_POST['redirectURL'] . '<br>');
 // echo('cancelledRequestID: ' . $_POST['cancelledRequestID'] . '<br>');
 
+// Delete record from TblRequests
 $stmt = $conn->prepare('DELETE FROM TblRequests WHERE RequestID = "' . $_POST['cancelledRequestID'] . '"');
 $stmt->execute();
 ?>

@@ -11,22 +11,37 @@ checkRole($_SESSION, 0, 1, 0);
         <title>Pending Requests</title>
         <link rel="stylesheet" href="styles.css">
         <script src="functions.js" type="text/javascript"></script>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     </head>
     <body>
-        <h1>Pending Requests</h1>
+        <div id="viewport">
+            <!-- Sidebar -->
+            <?php loadSidebar($_SESSION); ?>
+            <!-- Content -->
+            <div id="content">
+                <!-- Navbar -->
+                <?php loadNavbar($_SESSION); ?>
+                <!-- Stuff on the page -->
+                <div class="container-fluid">
+                    <h1>Pending Requests</h1>
 
-        <?php
-        hiddenDetailForm("request_details.php", "pending_requests.php");
+                    <?php
+                    hiddenDetailForm("request_details.php", "pending_requests.php");
 
-        // All requests where DriverID is null --> all requests which need a driver and don't have one
-        // And RequestID is not one that the user has declined already
-        $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests WHERE DriverID IS NULL
-                                AND RequestID NOT IN (SELECT RequestID FROM TblDeclinedDrivers WHERE DriverID = "' . $_SESSION['UserID'] . '")
-                                ORDER BY DateOfJob');
-        $stmt->execute();
-        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-            showRequest($row);
-        }
-        ?>
+                    // All requests where DriverID is null --> all requests which need a driver and don't have one
+                    // And RequestID is not one that the user has declined already
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests WHERE DriverID IS NULL
+                                            AND RequestID NOT IN (SELECT RequestID FROM TblDeclinedDrivers WHERE DriverID = "' . $_SESSION['UserID'] . '")
+                                            ORDER BY DateOfJob');
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        showRequest($row);
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

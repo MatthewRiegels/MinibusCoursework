@@ -1,5 +1,7 @@
 <?php
-//header('Location: login.php');// for testing comment this line out
+// This is the script page for logging a user in (from login.php)
+
+// header('Location: login.php');
 include_once('connection.php');
 session_start();
 

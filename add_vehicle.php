@@ -8,9 +8,9 @@ session_start();
 checkRole($_SESSION, 0, 0, 1);
 
 // output posted information for testing purposes
-echo("RegNumber: " . $_POST["RegNumber"] . "<br>");
-echo("Capacity: " . $_POST["Capacity"] . "<br>");
-echo("NotAvailableFrom: " . $_POST["NotAvailableFrom"] . "<br>");
+// echo("RegNumber: " . $_POST["RegNumber"] . "<br>");
+// echo("Capacity: " . $_POST["Capacity"] . "<br>");
+// echo("NotAvailableFrom: " . $_POST["NotAvailableFrom"] . "<br>");
 
 // add record to TblVehicles
 $stmt = $conn->prepare("INSERT INTO TblVehicles (RegNumber, Capacity, NotAvailableFrom)

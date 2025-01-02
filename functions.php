@@ -102,7 +102,7 @@ function loadSidebar($sessionData){
                 </li>
                 <li>
                     <a href="active_requests.php">
-                        Your active jobs
+                        Your requests
                     </a>
                 </li>
         ');
@@ -111,7 +111,7 @@ function loadSidebar($sessionData){
         echo('
                 <li>
                     <a href="pending_requests.php">
-                        View pending jobs
+                        View available jobs
                     </a>
                 </li>
                 <li>
@@ -149,7 +149,7 @@ function loadSidebar($sessionData){
                     </a>
                 </li>
                 <li>
-                    <a href="Driver profiles.php">
+                    <a href="driver_profiles.php">
                         Driver profiles
                     </a>
                 </li>

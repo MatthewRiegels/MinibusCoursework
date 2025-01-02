@@ -1,4 +1,6 @@
 <?php
+// This is a scripting page for Kristian adding a new user to the system (from add_user.php)
+
 header('Location: add_user.php');
 include_once('connection.php');
 include_once('functions.php');
@@ -26,14 +28,14 @@ switch ($_POST['Role']){
 }
 
 // Test outputs
-echo('Forename: ' . $_POST['Forename'] . '<br>');
-echo('Surname: ' . $_POST['Surname'] . '<br>');
-echo('Email: ' . $_POST['Email'] . '<br>');
-echo('TelephoneNumber: ' . $_POST['TelephoneNumber'] . '<br>');
-echo('Password: ' . $_POST['Password'] . '<br>');
-echo('$isAdmin: ' . $isAdmin . '<br>');
-echo('$isRequestor: ' . $isRequestor . '<br>');
-echo('$isDriver: ' . $isDriver . '<br>');
+// echo('Forename: ' . $_POST['Forename'] . '<br>');
+// echo('Surname: ' . $_POST['Surname'] . '<br>');
+// echo('Email: ' . $_POST['Email'] . '<br>');
+// echo('TelephoneNumber: ' . $_POST['TelephoneNumber'] . '<br>');
+// echo('Password: ' . $_POST['Password'] . '<br>');
+// echo('$isAdmin: ' . $isAdmin . '<br>');
+// echo('$isRequestor: ' . $isRequestor . '<br>');
+// echo('$isDriver: ' . $isDriver . '<br>');
 
 // Password hashing
 htmlspecialchars($_POST['Password']);

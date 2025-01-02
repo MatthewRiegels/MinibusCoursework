@@ -8,8 +8,9 @@ session_start();
 checkRole($_SESSION, 0, 0, 1);
 
 // Show all details for testing
-echo("cutoffdate: " . $_POST["cutoffdate"] . "<br>");
+// echo("cutoffdate: " . $_POST["cutoffdate"] . "<br>");
 
+// Delete record(s) from database TblRequests
 $stmt = $conn->prepare('DELETE FROM TblRequests WHERE DateOfJob < "' . $_POST["cutoffdate"] . '"');
 $stmt->execute();
 ?>

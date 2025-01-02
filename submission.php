@@ -10,6 +10,7 @@ checkRole($_SESSION, 1, 0, 0);
     <head>
         <title>Submit a Request</title>
         <link rel="stylesheet" href="styles.css">
+        <script src="functions.js" type="text/javascript"></script>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">

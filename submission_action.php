@@ -1,4 +1,6 @@
 <?php
+// This is the script page for a staff member submitting a request (from submission.php)
+
 header('Location: submission.php');
 include_once('connection.php');
 include_once('functions.php');
