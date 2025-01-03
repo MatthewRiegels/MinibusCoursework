@@ -32,13 +32,13 @@ checkRole($_SESSION, 0, 0, 1);
 
                     // All requests where DriverID is null --> all requests which need a driver and don't have one
                     // All requests where VehicleID is null --> all requests which need a vehicle and don't have one
-                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, Purpose FROM TblRequests
                                             WHERE DriverID IS NULL OR VehicleID IS NULL
                                             AND DateOfJob >= "' . date("Y-m-d") . '"
                                             ORDER BY DateOfJob');
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                        showRequest($row);
+                        showRequestAlternative($row, $conn);
                     }
                     ?>
                 </div>

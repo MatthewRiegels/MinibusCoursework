@@ -79,7 +79,7 @@ checkRole($_SESSION, 0, 0, 0);
                         echo('Reg: ' . $vehicleArr['RegNumber'] . '<br>');
                     }
 
-                    // Cancellling request (only available to requestor of this request)
+                    // Cancellling request (only available to requestor of this request, or admin)
                     if($_SESSION['UserID'] == $requestArr['RequestorID'] || $_SESSION['IsAdmin'] == 1){// If the current user is the requestor of this job or is admin
                         echo('<br>');
                         // Create a hidden form with only the submit button visible
@@ -107,14 +107,15 @@ checkRole($_SESSION, 0, 0, 0);
                     // Declining request (only available to drivers who haven't declined the request already)
                     // This query is for determining whether the current user has declined this request
                     $stmt = $conn->prepare('SELECT * FROM TblDeclinedDrivers
-                                            WHERE DriverID = "' . $_SESSION['UserID'] . '" AND  RequestID = "' . $_POST['chosenID'] . '"');
+                                            WHERE DriverID = "' . $_SESSION['UserID'] . '"
+                                            AND  RequestID = "' . $_POST['chosenID'] . '"');
                     $stmt->execute();
                     $arr = $stmt->fetch(PDO::FETCH_ASSOC);// If this array is empty, there is no record on TblDeclinedDrivers with this UserID and RequestID
                     $stmt->closeCursor();
                     if($_SESSION['IsDriver'] == 1 && empty($arr)){// If the current user is a driver AND the current user has not declined this request
                         echo('<br>');
                         // Create a hidden form with only the submit button visible
-                        // Inputs are autofilled: ID of request to be declined, ID of driver declining it, and URL of previous page for redirecting
+                        // Inputs are autofilled: ID of request to be declined, ID of driver declining it, and URL of this page for redirecting
                         echo('<form id="declineRequestForm" method="post" action="decline_request.php">');
                         echo('<input type="hidden" name="declinedRequestID" value="' . $_POST['chosenID'] . '">');
                         echo('<input type="hidden" name="decliningDriverID" value="' . $_SESSION['UserID'] . '">');
@@ -122,6 +123,47 @@ checkRole($_SESSION, 0, 0, 0);
                         echo('<input class="decline-request-submit-button" type="submit" value="Decline request">');
                         echo('</form>');
                     }
+
+                    // Admin & driver view of which drivers have declined this job
+                    // This query fetches all drivers that have declined this request
+                    $stmt = $conn->prepare('SELECT UserID, Forename, Surname, TelephoneNumber, HoursWorked FROM TblUsers
+                                            WHERE EXISTS (SELECT DriverID FROM TblDeclinedDrivers
+                                                          WHERE TblUsers.UserID = TblDeclinedDrivers.DriverID
+                                                          AND RequestID = "' . $_POST['chosenID'] . '")
+                                            ORDER BY Surname');
+                    $stmt->execute();
+                    $arr = $stmt->fetch(PDO::FETCH_ASSOC);// If this array is empty, no drivers have declined this request
+
+                    // If there is at least one driver that has declined this request AND the current user is an admin or driver
+                    // Then show a list of drivers that have declined this request
+                    if(!empty($arr) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
+                        echo('<br><b>Declined by:</b>');
+                        $stmt->execute();
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                            showDriver($row);
+                        }
+                    }
+                    $stmt->closeCursor();
+
+                    // List of drivers that have not reacted to the request
+                    // This query fetches a list of all drivers that have not declined the request and have not accepted the request
+                    $stmt = $conn->prepare('SELECT UserID, Forename, Surname, TelephoneNumber, HoursWorked FROM TblUsers
+                                            WHERE NOT EXISTS (SELECT DriverID FROM TblDeclinedDrivers
+                                                              WHERE TblUsers.UserID = TblDeclinedDrivers.DriverID
+                                                              AND TblDeclinedDrivers.RequestID = "' . $_POST['chosenID'] . '")
+                                            AND UserID != "' . $requestArr['DriverID'] . '"
+                                            AND IsDriver = 1
+                                            ORDER BY Surname');
+                    $stmt->execute();
+                    $arr = $stmt->fetch(PDO::FETCH_ASSOC);
+                    if(!empty($arr) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
+                        echo('<br><b>Request not viewed by:</b>');
+                        $stmt->execute();
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                            showDriver($row);
+                        }
+                    }
+                    $stmt->closeCursor();
                     ?>
                 </div>
             </div>

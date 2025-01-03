@@ -82,13 +82,13 @@ checkRole($_SESSION, 0, 0, 0);
                         if ($arr["IsRequestor"] == 1){
                             // Listing all the staff member's current requests
                             echo("<br><b>" . $arr["Forename"] . " " . $arr["Surname"] . "'s current requests</b>");
-                            $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
+                            $stmt = $conn->prepare('SELECT RequestID, DateOfJob, Purpose FROM TblRequests
                                                     WHERE RequestorID = "' . $_POST["chosenID"] . '"
                                                     AND DateOfJob >= "' . date("Y-m-d") . '"
                                                     ORDER BY DateOfJob');
                             $stmt->execute();
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                showRequest($row);
+                                showRequestAlternative($row);
                             }
 
                             // Listing the staff member's request history

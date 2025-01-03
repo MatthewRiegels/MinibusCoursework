@@ -32,7 +32,7 @@ checkRole($_SESSION, 0, 1, 0);
 
                     // All requests where DriverID is null --> all requests which need a driver and don't have one
                     // And RequestID is not one that the user has declined already
-                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, Purpose FROM TblRequests
                                             WHERE DriverID IS NULL
                                             AND RequestID NOT IN (SELECT RequestID FROM TblDeclinedDrivers 
                                                                   WHERE DriverID = "' . $_SESSION['UserID'] . '")
@@ -40,7 +40,7 @@ checkRole($_SESSION, 0, 1, 0);
                                             ORDER BY DateOfJob');
                     $stmt->execute();
                     while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-                        showRequest($row);
+                        showRequestAlternative($row, $conn);
                     }
                     ?>
                 </div>

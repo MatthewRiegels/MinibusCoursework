@@ -50,6 +50,40 @@ function showStaffMember($staffMemberData){
     );
 }
 
+// This function is an alternative to showRequest that shows the number of drivers that have declined the request
+// goToDetails is required, and connection.php must be included
+function showRequestAlternative($requestData, $connection){
+    // Get total number of drivers
+    $stmt = $connection->prepare('SELECT UserID FROM TblUsers
+                                  WHERE IsDriver = 1');
+    $stmt->execute();
+    $numDrivers = 0;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $numDrivers = $numDrivers + 1;
+    }
+    $stmt->closeCursor();
+
+
+    // Get number of drivers that have declined this request
+    $stmt = $connection->prepare('SELECT DriverID FROM TblDeclinedDrivers
+                                  WHERE RequestID = "' . $requestData['RequestID'] . '"');
+    $stmt->execute();
+    $numDeclined = 0;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $numDeclined = $numDeclined + 1;
+    }
+    $stmt->closeCursor();
+
+    echo(
+        '<div class="list-item-container">' . 
+        '<div class="bold-container">' . $requestData['DateOfJob'] . '</div>' . 
+        '<div class="plain-container">' . $requestData['Purpose'] . '</div>' . 
+        '<div class="italics-container">(' . $numDeclined . '/' . $numDrivers . ' declined)</div>' . 
+        '<button class="details-button" onclick=\'goToDetails("' . $requestData['RequestID'] . '")\'>--></button>' . 
+        '</div>'
+    );
+}
+
 
 // This function checks if the user is logged in and if they have the right roles to access a page
 // This is run at the top of every page

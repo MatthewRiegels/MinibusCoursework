@@ -19,6 +19,7 @@ $stmt->closeCursor();
 
 // These lines ensure that when a driver accepts a request they've previously declined, they stop declining it
 $stmt = $conn->prepare('DELETE FROM TblDeclinedDrivers
-WHERE DriverID = "' . $_POST['acceptingDriverID'] . '" AND RequestID = "' . $_POST['acceptedRequestID'] . '"');
+                        WHERE DriverID = "' . $_POST['acceptingDriverID'] . '"
+                        AND RequestID = "' . $_POST['acceptedRequestID'] . '"');
 $stmt->execute();
 ?>
