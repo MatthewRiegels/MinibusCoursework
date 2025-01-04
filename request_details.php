@@ -25,14 +25,58 @@ checkRole($_SESSION, 0, 0, 0);
                 <?php loadNavbar($_SESSION); ?>
                 <!-- Stuff on the page -->
                 <div class="container-fluid">
-                    <a href="<?php echo($_POST['redirectURL']); ?>">Back to previous page</a>
-                    <h1>Request Details</h1>
                     <?php
-                    // Request details
+                    hiddenDetailForm('user_details.php', $_POST['redirectURL']);
+                    echo('<a href="' . $_POST['redirectURL'] . '">Back to previous page</a>');
+
+                    // Fetch the request record from TblRequests
                     $stmt = $conn->prepare('SELECT * FROM TblRequests WHERE RequestID = "' . $_POST['chosenID'] . '"');
                     $stmt->execute();
                     $requestArr = $stmt->fetch(PDO::FETCH_ASSOC);
                     $stmt->closeCursor();
+
+                    // Declined request message box
+                    $numDrivers = countDrivers($conn);
+                    $numDeclinedDrivers = countDeclinedDrivers($_POST['chosenID'], $conn);
+                    if ($numDrivers == $numDeclinedDrivers){
+                        echo('<br><br>
+                            <div class="alert alert-danger">
+                                <strong>This request has been declined by all drivers.</strong>
+                        ');
+                        if ($_SESSION['UserID'] == $requestArr['RequestorID']){// Include explanation/direction message for staff members only
+                            echo('
+                                This means that none of our drivers are available at this time and so we cannot fulfill your request.
+                                Please make another request at a different date and time and we can try to accomodate you.
+                                You can cancel this request with the button below.
+                            ');
+                        }
+                        echo('
+                            </div>
+                        ');
+                    }
+                    // Ignored request message box (pending requests past their date)
+                    // This if statement essentially says if ((in the past) and (is still pending)) --> show message
+                    else if (($requestArr['DateOfJob'] <= date('Y-m-d')) && ($requestArr['DriverID'] == null || $requestArr['VehicleID'] == null)){
+                        echo('<br><br>
+                            <div class="alert alert-danger">
+                                <strong>This request has past its departure date without being assigned a driver and vehicle.</strong>
+                        ');
+                        if ($_SESSION['UserID'] == $requestArr['RequestorID']){// Include explanation/direction message for staff members only
+                            echo('
+                                This means that either none of our drivers volunteered for this job, or that no vehicle was available at the requested time.
+                                Please make another request at a different date and time and we can try to accomodate you.
+                                You can cancel this request with the button below.
+                            ');
+                        }
+                        echo('
+                            </div>
+                        ');
+                    }
+
+                    // Page heading
+                    echo('<h1>Request Details</h1>');
+
+                    // Display request details
                     echo('Date: ' . $requestArr['DateOfJob'] . '<br>');
                     echo('Time: ' . $requestArr['TimeOut'] . '-' . $requestArr['TimeIn'] . '<br>');
                     echo('Destination: ' . $requestArr['Destination'] . '<br>');

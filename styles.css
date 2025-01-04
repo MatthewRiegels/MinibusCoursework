@@ -1,30 +1,38 @@
 .list-item-container{
-    background-color: #EAECF3;
-    border: 2px solid black;
-    border-radius: 10px;
-    margin: 2px;
-    padding: 5px;
-    width: 410px;
+  background-color: #EAECF3;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 5px;
+  width: 410px;
+}
+.list-item-container-declined{
+  background-color: #e8d6d6;
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 2px;
+  padding: 5px;
+  width: 410px;
 }
 .bold-container{
-    font-weight: bold;
-    width: fit-content;
-    display:inline-block;
-    margin-right: 10px;
+  font-weight: bold;
+  width: fit-content;
+  display:inline-block;
+  margin-right: 10px;
 }
 .italics-container{
-    font-style: italic;
-    width: fit-content;
-    display:inline-block;
-    margin-right: 10px;
+  font-style: italic;
+  width: fit-content;
+  display:inline-block;
+  margin-right: 10px;
 }
 .plain-container{
-    width: fit-content;
-    display:inline-block;
-    margin-right: 10px;
+  width: fit-content;
+  display:inline-block;
+  margin-right: 10px;
 }
 .details-button{
-    float:right;
+  float:right;
 }
 
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400,400i,500');

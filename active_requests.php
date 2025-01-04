@@ -33,28 +33,49 @@ checkRole($_SESSION, 1, 0, 0);
 
                     // These are jobs which have been assigned a driver and a vehicle (including jobs that are self-driven)
                     echo('<h2>Accepted Jobs</h2>');
-                    $stmt1 = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests 
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests 
                                             WHERE RequestorID = "' . $_SESSION['UserID'] . '" 
                                             AND DriverID IS NOT NULL 
                                             AND VehicleID IS NOT NULL 
                                             AND DateOfJob >= "' . date("Y-m-d") . '" 
                                             ORDER BY DateOfJob');
-                    $stmt1->execute();
-                    while ($row = $stmt1->fetch(PDO::FETCH_ASSOC)){
+                    $stmt->execute();
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
                         showRequest($row);
                     }
+                    $stmt->closeCursor();
 
-                    // Thses are jobs which have not been fully assigned (ie are missing either a driver or a vehicle or both)
+                    // These are jobs which have not been fully assigned (ie are missing either a driver or a vehicle or both)
                     echo('<h2>Pending Jobs</h2>');
-                    $stmt2 = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests 
+
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests 
                                             WHERE RequestorID = "' . $_SESSION['UserID'] . '" 
                                             AND ( DriverID IS NULL OR VehicleID IS NULL ) 
-                                            AND DateOfJob >= "' . date("Y-m-d") . '" 
+                                            AND DateOfJob <= "' . date("Y-m-d") . '" 
                                             ORDER BY DateOfJob');
-                    $stmt2->execute();
-                    while ($row = $stmt2->fetch(PDO::FETCH_ASSOC)){
-                        showRequest($row);
+                    $stmt->execute();// This will fetch all the pending jobs from the past (ie those that have been neglected)
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        showRequestDeclined($row);// Show the request with the error message
                     }
+                    $stmt->closeCursor();
+
+                    $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests 
+                                            WHERE RequestorID = "' . $_SESSION['UserID'] . '" 
+                                            AND ( DriverID IS NULL OR VehicleID IS NULL ) 
+                                            AND DateOfJob > "' . date("Y-m-d") . '" 
+                                            ORDER BY DateOfJob');
+                    $stmt->execute();// This will fetch all the pending jobs from the future
+                    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+                        $numDeclined = countDeclinedDrivers($row['RequestID'], $conn);// Get number of drivers that have declined this request
+                        $numDrivers = countDrivers($conn);// Get total number of drivers
+                        if ($numDeclined == $numDrivers){// If all drivers have declined this request, display it differently
+                            showRequestDeclined($row);
+                        }
+                        else{
+                            showRequest($row);
+                        }
+                    }
+                    $stmt->closeCursor();
                     ?>
                 </div>
             </div>

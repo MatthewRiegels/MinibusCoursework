@@ -52,27 +52,9 @@ function showStaffMember($staffMemberData){
 
 // This function is an alternative to showRequest that shows the number of drivers that have declined the request
 // goToDetails is required, and connection.php must be included
-function showRequestAlternative($requestData, $connection){
-    // Get total number of drivers
-    $stmt = $connection->prepare('SELECT UserID FROM TblUsers
-                                  WHERE IsDriver = 1');
-    $stmt->execute();
-    $numDrivers = 0;
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $numDrivers = $numDrivers + 1;
-    }
-    $stmt->closeCursor();
-
-
-    // Get number of drivers that have declined this request
-    $stmt = $connection->prepare('SELECT DriverID FROM TblDeclinedDrivers
-                                  WHERE RequestID = "' . $requestData['RequestID'] . '"');
-    $stmt->execute();
-    $numDeclined = 0;
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        $numDeclined = $numDeclined + 1;
-    }
-    $stmt->closeCursor();
+function showRequestAlternative($requestData, $conn){
+    $numDrivers = countDrivers($conn);// Get total number of drivers
+    $numDeclined = countDeclinedDrivers($requestData['RequestID'], $conn);// Get number of drivers that have declined this request
 
     echo(
         '<div class="list-item-container">' . 
@@ -84,6 +66,18 @@ function showRequestAlternative($requestData, $connection){
     );
 }
 
+// This function is another alternative to showRequest with a different style that indicates that the request has been declined by all drivers
+// goToDetails is required
+function showRequestDeclined($requestData){
+    echo(
+        '<div class="list-item-container-declined">' . 
+            '<div class="bold-container">' . $requestData['DateOfJob'] . '</div>' . 
+            '<div class="plain-container">' . $requestData['Purpose'] . '</div>' . 
+            '<div class="italics-container"><b>Declined!</b></div>' . 
+            '<button class="details-button" onclick=\'goToDetails("' . $requestData['RequestID'] . '")\'>--></button>' . 
+        '</div>'
+    );
+}
 
 // This function checks if the user is logged in and if they have the right roles to access a page
 // This is run at the top of every page
@@ -207,6 +201,7 @@ function loadSidebar($sessionData){
         ');
 }
 
+// This function is included in every page and loads in the navbar at the top
 function loadNavbar($sessionData){
     echo('
         <nav class="navbar navbar-default">
@@ -228,5 +223,31 @@ function loadNavbar($sessionData){
             </div>
         </nav>
     ');
+}
+
+// This function returns the total number of drivers on the system
+function countDrivers($conn){
+    $stmt = $conn->prepare('SELECT UserID FROM TblUsers
+                            WHERE IsDriver = 1');
+    $stmt->execute();
+    $totalDrivers = 0;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $totalDrivers = $totalDrivers + 1;
+    }
+    $stmt->closeCursor();
+    return $totalDrivers;
+}
+
+// This function returns the number of drivers that have declined a particluar request
+function countDeclinedDrivers($requestID, $conn){
+    $stmt = $conn->prepare('SELECT DriverID FROM TblDeclinedDrivers
+                            WHERE RequestID = "' . $requestID . '"');
+    $stmt->execute();
+    $totalDeclinedDrivers = 0;
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
+        $totalDeclinedDrivers = $totalDeclinedDrivers + 1;
+    }
+    $stmt->closeCursor();
+    return $totalDeclinedDrivers;
 }
 ?>
