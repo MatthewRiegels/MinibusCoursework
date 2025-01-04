@@ -32,7 +32,8 @@ checkRole($_SESSION, 0, 0, 1);
                     // All requests where DriverID is not null --> all requests which have a driver (or are self-driven)
                     // All requests where VehicleID is not null --> all requests which have been assigned a vehicle
                     $stmt = $conn->prepare('SELECT RequestID, DateOfJob, TimeOut, TimeIn, Purpose FROM TblRequests
-                                            WHERE DriverID IS NOT NULL AND VehicleID IS NOT NULL
+                                            WHERE DriverID IS NOT NULL
+                                            AND VehicleID IS NOT NULL
                                             AND DateOfJob >= "' . date("Y-m-d") . '"
                                             ORDER BY DateOfJob');
                     $stmt->execute();
