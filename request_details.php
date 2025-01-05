@@ -178,9 +178,9 @@ checkRole($_SESSION, 0, 0, 0);
                     $stmt->execute();
                     $arr = $stmt->fetch(PDO::FETCH_ASSOC);// If this array is empty, no drivers have declined this request
 
-                    // If there is at least one driver that has declined this request AND the current user is an admin or driver
+                    // If no driver assigned AND there is at least one driver that has declined this request AND the current user is an admin or driver
                     // Then show a list of drivers that have declined this request
-                    if(!empty($arr) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
+                    if(($requestArr['DriverID'] == null) && (!empty($arr)) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
                         echo('<br><b>Declined by:</b>');
                         $stmt->execute();
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -200,7 +200,7 @@ checkRole($_SESSION, 0, 0, 0);
                                             ORDER BY Surname');
                     $stmt->execute();
                     $arr = $stmt->fetch(PDO::FETCH_ASSOC);
-                    if(!empty($arr) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
+                    if(($requestArr['DriverID'] == null) && (!empty($arr)) && ($_SESSION['IsAdmin'] == 1 || $_SESSION['IsDriver'] == 1)){
                         echo('<br><b>Request not viewed by:</b>');
                         $stmt->execute();
                         while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -208,6 +208,55 @@ checkRole($_SESSION, 0, 0, 0);
                         }
                     }
                     $stmt->closeCursor();
+
+                    // Vehicle assignment
+                    // This is the section where Kristian selects a vehicle to assign to this request
+                    // IF ((current user is admin) AND (Vehicle is not assigned) THEN ...
+                    if (($_SESSION['IsAdmin'] == 1) && ($requestArr['VehicleID'] == null)){
+                        // Breakdown of this query: vehicles selected follow:
+                        //     Vehicle capacity is at least equal to the requested capacity of the job
+                        //     The job's date is before the vehicle's NotAvailableFrom date
+                        //     Exclude all vehicles that have requests assigned to them for which:
+                        //         The date is the same as this request's date
+                        //         This request's TimeOut is in between that request's TimeOut and TimeIn
+                        //         This request's TimeIn is in between that request's TimeOut and TimeIn
+                        $stmt = $conn->prepare('SELECT VehicleID, RegNumber, Capacity FROM TblVehicles
+                                                WHERE Capacity >= "' . $requestArr['ReqCapacity'] . '"
+                                                AND NotAvailableFrom > "' . $requestArr['DateOfJob'] . '"
+                                                AND NOT EXISTS (
+                                                                SELECT VehicleID FROM TblRequests
+                                                                WHERE TblRequests.VehicleID = TblVehicles.VehicleID
+                                                                AND DateOfJob = "' . $requestArr['DateOfJob'] . '"
+                                                                AND (
+                                                                     (TimeOut > "' . $requestArr['TimeOut'] . '" AND TimeOut < "' . $requestArr['TimeIn'] . '")
+                                                                     OR (TimeIn > "' . $requestArr['TimeOut'] . '" AND TimeIn < "' . $requestArr['TimeIn'] . '")
+                                                                     )
+                                                                )
+                                                ORDER BY Capacity
+                                                ');
+                        $stmt->execute();
+                        // Form code for selecting vehicle
+                        echo('
+                            <br>
+                            <form method="post" action="assign_vehicle.php">
+                                <b>Assign vehicle:</b>
+                                <select name="assignedVehicleID">
+                                    <option value="null">Select a vehicle</option>
+                        ');
+                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){// Iterate over the records returned by the query and make a dropdown option for each
+                            echo(
+                                    '<option value="' . $row['VehicleID'] . '">' . $row['RegNumber'] . ', Capacity ' . $row['Capacity'] . '</option>'
+                            );
+                        }
+                        echo('
+                                </select>
+                                <input type="hidden" name="assignedRequestID" value="' . $_POST['chosenID'] . '">
+                                <input type="hidden" name="redirectURL" value="' . $_POST['redirectURL'] . '">
+                                <input type="submit" value="Go">
+                            </form>
+                        ');
+                        $stmt->closeCursor();
+                    }
                     ?>
                 </div>
             </div>
