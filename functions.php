@@ -204,7 +204,7 @@ function loadSidebar($sessionData){
 // This function is included in every page and loads in the navbar at the top
 function loadNavbar($sessionData){
     echo('
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default" id="navbar">
             <div class="container-fluid">
                 <ul class="nav navbar-nav navbar-right">
     ');
