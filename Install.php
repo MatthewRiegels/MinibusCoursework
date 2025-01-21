@@ -67,7 +67,7 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("INSERT INTO TblVehicles (RegNumber, Capacity, NotAvailableFrom) VALUES
 ('BD15SMR', 10, '2025-11-04'),
 ('GF24WSN', 18, '2026-06-11')
-");
+;");
 $stmt->execute();
 $stmt->closeCursor();
 
@@ -78,7 +78,7 @@ $stmt = $conn->prepare("INSERT INTO TblUsers (Password, Email, TelephoneNumber, 
 ('" . password_hash('P455W0RD', PASSWORD_BCRYPT) . "', 'doe.j@oundleschool.org.uk', '07303836152', 'Jane', 'Doe', 0, 0, 1, NULL),
 ('" . password_hash('4DM1NPWD', PASSWORD_BCRYPT) . "', 'admin@oundleschool.org.uk', '07538946537', 'Kristian', 'Fewster', 0, 1, 0, NULL),
 ('" . password_hash('K4CH0W', PASSWORD_BCRYPT) . "', 'bolt.b@oundleschool.org.uk', '07305723845', 'Billy', 'Bolt', 1, 0, 0, 0)
-");
+;");
 $stmt->execute();
 $stmt->closeCursor();
 
@@ -86,14 +86,23 @@ $stmt->closeCursor();
 $stmt = $conn->prepare("INSERT INTO TblRequests (DateOfJob, TimeOut, TimeIn, Destination, Postcode, Purpose, ReqCapacity, DriverID, VehicleID, RequestorID) VALUES
 ('2025-05-17', '10:30', '12:40', 'Uppingham', 'LE159SE', 'Netball', 7, 2, NULL, 1),
 ('2025-06-03', '12:30', '15:50', 'Old Bailey', 'EC4M 7AN', 'Quad law trip', 10, 1, NULL, 1),
-('2025-02-07', '18:00', '22:00', 'Corby Cinema', 'NN171QG', 'House cinema trip', 14, NULL, 1, 1),
+('2025-02-07', '18:00', '22:00', 'Corby Cinema', 'NN171QG', 'House cinema trip', 14, NULL, 2, 1),
 ('2025-05-08', '13:30', '17:00', 'Henley', 'RG9 3DB', 'Rowing regatta', 12, 1, 1, 1),
-('2025-04-10', '14:00', '16:00', 'Bedford modern', 'MK41 7NT', 'Fives away fixture', 5, 2, NULL, 3),
-('2025-04-19', '12:00', '17:00', 'Stowe', 'MK185EH', 'Cricket away fixture', 19, 2, 1, 3),
-('2022-12-01', '09:00', '13:00', 'Oxford Street', 'W1C 2AU', 'Architecture trip', 8, 2, 1, 3),
+('2025-04-10', '14:00', '16:00', 'Bedford modern', 'MK41 7NT', 'Fives away fixture', 6, NULL, NULL, 3),
+('2025-04-19', '12:00', '17:00', 'Stowe', 'MK185EH', 'Cricket away fixture', 19, NULL, 1, 3),
+('2022-12-01', '09:00', '13:00', 'Oxford Street', 'W1C 2AU', 'Architecture trip', 8, NULL, 1, 3),
 ('2023-04-13', '07:30', '22:00', 'Edinburgh castle', 'EH1 2NG', 'History trip', 18, 3, 1, 3),
-('2024-09-23', '13:30', '16:30', 'Uppingham', 'LE15 9SE', 'Rugby away fixture', 15, 5, 1, 1)
-");
+('2024-09-23', '13:30', '16:30', 'Uppingham', 'LE15 9SE', 'Rugby away fixture', 15, 5, 1, 1),
+('2025-11-05', '10:00', '21:00', 'St Albans', 'AL3 4SW', 'History trip', 9, NULL, NULL, 3),
+('2025-02-07', '11:00', '19:00', 'Science Museum', 'SW7 2DD', 'Chemistry trip', 10, NULL, 1, 3)
+;");
 $stmt->execute();
 $stmt->closeCursor();
+
+// TblDeclinedDrivers
+$stmt = $conn->prepare("INSERT INTO TblDeclinedDrivers (DriverID, RequestID) VALUES
+(2, 5),
+(2, 6),
+(5, 5)
+;");
 ?>
