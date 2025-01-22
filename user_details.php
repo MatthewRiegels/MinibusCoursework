@@ -88,7 +88,7 @@ checkRole($_SESSION, 0, 0, 0);
                                                     ORDER BY DateOfJob');
                             $stmt->execute();
                             while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
-                                showRequestAlternative($row);
+                                showRequestAlternative($row, $conn);
                             }
 
                             // Listing the staff member's request history
