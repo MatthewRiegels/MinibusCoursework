@@ -100,9 +100,5 @@ $stmt->execute();
 $stmt->closeCursor();
 
 // TblDeclinedDrivers
-$stmt = $conn->prepare("INSERT INTO TblDeclinedDrivers (DriverID, RequestID) VALUES
-(2, 5),
-(2, 6),
-(5, 5)
-;");
+$stmt = $conn->prepare("INSERT INTO TblDeclinedDrivers (DriverID, RequestID) VALUES (2, 5), (2, 6), (5, 5);");
 ?>
